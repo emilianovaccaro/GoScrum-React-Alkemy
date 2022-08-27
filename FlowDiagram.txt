@@ -1,0 +1,121 @@
+--GoScrum--
+This project was created for Alkemy's React skill up challenge lv2;
+
+Basic flow diagram, some things can change in the upcoming commits while we work on this app;
+
+
+FOLDERS:
+Repository:
+  -public
+  -src: {
+    -index
+    -app
+    -components: {
+      -Header
+      -TaskForm
+      -Task: {
+        TaskItem
+        TaskList
+      }
+      -Spinner
+    }
+    -pages/views:{
+      -Login
+      -Register
+      -Dashboard and/or Landing
+    }
+    -redux: {
+      -Store
+      -Actions:{
+        index
+        auth
+        task
+      }
+      -reducers:{
+        -index
+        -auth
+        -tasks
+      }
+    }
+  }
+
+
+
+The list goes in this order:
+-Login
+-Register
+-TaskForm
+-TaskItem or Card
+-TaskContainer or List
+-Redux {
+  -Actions
+  -Reducers
+  -Store
+}
+
+
+
+
+
+###############################################################################################
+
+LOGIN PAGE / Login.js : needs two show 2 inputs and submit btn.
+-Input 1: Username.
+-Input 2: Password.
+-Button: submit.
+
+###############################################################################################
+
+REGISTER PAGE / Register.js : 
+             User needs: 
+               basic: name as username, password, email, submit button. (maybe add a confirm password for validation).
+               advanced: button, to ask if the user belongs to an already created team or not. (boolean state).
+               advanced 2: we need roles (team leader, team member).
+               advanced 2: we need to know the continent/region of the user.
+              
+            user object will be smth like this:
+            
+            user: {
+              username: '',
+              password: '',
+              email: '',
+              hasTeam: false,
+              teamId: '',
+              role: '' -> (team member or team leader),
+              continent: '' -> (prefixed values america/asia/africa/europe/oceania)
+              region: '' -> (prefixed values maybe?? just add some countries and check if it works, after that we can add all of them)
+            }
+
+            those should be our http request values.
+
+###############################################################################################
+
+TASK FORM PAGE / TaskForm.js :
+  task needs: {
+    title: '',
+    status: '' default = 'new', (also we need to add a state where this "status" can change: finished/in progress)
+    prority: '' task priority: default = 'low',
+    description: '' -> add a description of the task.
+  }
+
+
+###############################################################################################
+
+TASK ITEM / TaskItem.js
+ shows:
+  -title
+  -status
+  -priority
+  -description
+
+We could use Charka UI or Semantic UI, both have nice ways to create cards.
+Also we can add badges to those cards (for status and priority properties).
+
+###############################################################################################
+
+REDUX: 
+
+Actions: 
+  CRUD for tasks.
+  We also need to be able to create USERS and keep the session with JWT via localStorage.
+
