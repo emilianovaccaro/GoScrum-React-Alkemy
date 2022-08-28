@@ -2,9 +2,9 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaTasks } from 'react-icons/fa';
 import { Formik, Form } from 'formik';
-import { TextField } from '../Fields/TextField';
+import { TextField } from '../InputFields/TextField';
 import * as Yup from 'yup';
-import { SelectorField } from '../Fields/SelectorField';
+import { SelectorField } from '../InputFields/SelectorField';
 
 
 //Input validation

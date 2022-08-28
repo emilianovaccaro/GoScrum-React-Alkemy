@@ -2,8 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 import { Formik, Form } from 'formik';
-import { TextField } from '../Fields/TextField';
-import { SelectorField } from '../Fields/SelectorField';
+import { TextField } from '../InputFields/TextField';
 import * as Yup from 'yup';
 
 
@@ -29,9 +28,6 @@ const validate = Yup.object().shape({
 
       return false;
     }),
-  email: Yup.string()
-    .email()
-    .required(),
   password: Yup.string()
     .required("Password is required")
     .min(8, 'Password must be at least 8 characters')
@@ -56,22 +52,17 @@ const validate = Yup.object().shape({
         }
 
         return false;
-    }),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    })
 });
 
 //initial values
 const initialValues = {
   username: "",
-  email: "",
   password: "",
-  role: "",
-  confirmPassword: "",
 };
 
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   
   
@@ -82,7 +73,6 @@ const RegisterForm = () => {
 
   return (
     <>
-
       <section className="heading">
         <h1>
           <FaSignInAlt /> Sign In 
@@ -98,33 +88,19 @@ const RegisterForm = () => {
         {formik => (
           <div className="form">
             <Form>
+
               <div className="form-group">
-                <TextField placeholder="user" name="username" type="text" />
+                <TextField placeholder="User" name="username" type="text" />
               </div>
 
               <div className="form-group">
-                <TextField placeholder="email" name="email" type="email" />
-              </div>
-
-              <div className="form-group">
-                <SelectorField placeholder="role" name="role">
-                  <option value="">Select Role</option>
-                  <option value="member">Team Member</option>
-                  <option value="leader">Team Leader</option>
-                </SelectorField>
-              </div>
-
-              <div className="form-group">
-                <TextField placeholder="password" name="password" type="password" />
-              </div>
-
-              <div className="form-group">
-                <TextField placeholder="confirm password" name="confirmPassword" type="password" />
+                <TextField placeholder="Password" name="password" type="password" />
               </div>
 
               <div className="form-group">
                 <button className="btn btn-block" type="submit">Login</button>
               </div>
+
             </Form>
           </div>
         )}
@@ -134,4 +110,4 @@ const RegisterForm = () => {
 }
 
 
-export default RegisterForm;
+export default LoginForm;
