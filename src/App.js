@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import Header from './components/Header/Header';
+import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -15,7 +15,7 @@ function App() {
       <Router>
         <div className='container'>
 
-          <Header />
+          <Navbar />
           
           <Routes>
             <Route path="/" element={ <Dashboard /> } />
