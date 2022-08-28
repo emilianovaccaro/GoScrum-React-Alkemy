@@ -6,6 +6,7 @@ import Header from './components/Header/Header';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import TaskForm from './components/TaskForm/TaskForm';
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
             <Route path="/" element={ <Dashboard /> } />
             <Route path="/login" element={ <Login /> } />
             <Route path="/register" element={ <Register /> } />
-            <Route path="/" element={ <Dashboard /> } />
+            <Route path="/taskform" element={ <TaskForm /> } />
           </Routes>
 
         </div>

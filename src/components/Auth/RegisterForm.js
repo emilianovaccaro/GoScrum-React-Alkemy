@@ -1,10 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { FaTasks } from 'react-icons/fa';
+import { FaSignInAlt } from 'react-icons/fa';
 import { Formik, Form } from 'formik';
 import { TextField } from '../Fields/TextField';
-import * as Yup from 'yup';
 import { SelectorField } from '../Fields/SelectorField';
+import * as Yup from 'yup';
 
 
 //Input validation
@@ -63,14 +63,15 @@ const validate = Yup.object().shape({
 
 //initial values
 const initialValues = {
-  title: "",
-  description: "",
-  priority: "",
-  status: "",
+  username: "",
+  email: "",
+  password: "",
+  role: "",
+  confirmPassword: "",
 };
 
 
-const TaskForm = () => {
+const RegisterForm = () => {
   const navigate = useNavigate();
   
   
@@ -84,8 +85,9 @@ const TaskForm = () => {
 
       <section className="heading">
         <h1>
-          <FaTasks /> Task editor
+          <FaSignInAlt /> Sign In 
         </h1>
+        <p>Go Scrum Platform</p>
       </section>  
 
       <Formik
@@ -97,33 +99,31 @@ const TaskForm = () => {
           <div className="form">
             <Form>
               <div className="form-group">
-                <TextField placeholder="title" name="title" type="text" />
+                <TextField placeholder="user" name="username" type="text" />
               </div>
 
               <div className="form-group">
-                <TextField placeholder="description" name="description" type="text" />
+                <TextField placeholder="email" name="email" type="email" />
               </div>
 
               <div className="form-group">
-                <SelectorField placeholder="priority" name="priority">
-                  <option value="">Priority</option>
-                  <option value="low">Low</option>
-                  <option value="mid">Mid</option>
-                  <option value="high">High</option>
+                <SelectorField placeholder="role" name="role">
+                  <option value="">Select Role</option>
+                  <option value="member">Team Member</option>
+                  <option value="leader">Team Leader</option>
                 </SelectorField>
               </div>
 
               <div className="form-group">
-                <SelectorField placeholder="status" name="status">
-                  <option value="">Status</option>
-                  <option value="new">New</option>
-                  <option value="inprogress">In Progress</option>
-                  <option value="finished">Finished</option>
-                </SelectorField>
+                <TextField placeholder="password" name="password" type="password" />
               </div>
 
               <div className="form-group">
-                <button className="btn btn-block" type="submit">Create</button>
+                <TextField placeholder="confirm password" name="confirmPassword" type="password" />
+              </div>
+
+              <div className="form-group">
+                <button className="btn btn-block" type="submit">Login</button>
               </div>
             </Form>
           </div>
@@ -134,4 +134,4 @@ const TaskForm = () => {
 }
 
 
-export default TaskForm;
+export default RegisterForm;
