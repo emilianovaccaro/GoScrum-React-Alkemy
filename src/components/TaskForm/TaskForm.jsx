@@ -9,56 +9,16 @@ import { SelectorField } from '../InputFields/SelectorField';
 
 //Input validation
 const validate = Yup.object().shape({
-  username: Yup.string()
-    .required("User is required")
-    .min(6, "username must contain at least 6 characters")
-    .test("isValid", "User can only contain letters", (value, context) => {
-      const hasNumber = /[0-9]/.test(value);
-      const hasSpecialChar = /["!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]/.test(value);
-
-      let invalidConditions = 0;
-      const actualConditions = [hasNumber, hasSpecialChar];
-
-      actualConditions.forEach(condition => (
-        condition ? invalidConditions++ : null
-      ))
-
-      if (invalidConditions === 0) {
-        return true;
-      }
-
-      return false;
-    }),
-  email: Yup.string()
-    .email()
-    .required(),
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, 'Password must be at least 8 characters')
-    .test(
-      "valid password",
-      "Password must contain: number, uppercase letter, lowercase letter", 
-      (value, context) => {
-        const hasUpperCase = /[A-Z]/.test(value);
-        const hasLowerCase = /[a-z]/.test(value);
-        const hasNumber = /[0-9]/.test(value);
-
-        const totalConditions = 3;
-        let validConditions = 0;
-        const actualConditions = [hasUpperCase, hasLowerCase, hasNumber];
-
-        actualConditions.forEach(condition => (
-          condition ? validConditions++ : null
-        ))
-
-        if (validConditions === totalConditions) {
-          return true;
-        }
-
-        return false;
-    }),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+  title: Yup.string()
+    .required("Title is required")
+    .min(6, "Must contain at least 6 characters"),
+  description: Yup.string()
+    .required()   
+    .min(20, "Please add at least 20 characters about this task"),
+  priority: Yup.string()
+    .required("Priority is required"),
+  status: Yup.string()
+    .required("Status is required")
 });
 
 //initial values
