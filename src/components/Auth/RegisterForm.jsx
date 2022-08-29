@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { FaSignInAlt } from 'react-icons/fa';
+import { FaUserPlus } from 'react-icons/fa';
 import { Formik, Form } from 'formik';
 import { TextField } from '../InputFields/TextField';
 import { SelectorField } from '../InputFields/SelectorField';
@@ -85,7 +85,7 @@ const RegisterForm = () => {
 
       <section className="heading">
         <h1>
-          <FaSignInAlt /> Sign In 
+          <FaUserPlus /> Sign Up
         </h1>
         <p>Go Scrum Platform</p>
       </section>  
