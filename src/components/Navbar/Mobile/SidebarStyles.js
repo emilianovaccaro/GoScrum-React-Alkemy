@@ -90,4 +90,23 @@ export const SidebarLogin = styled(Link)`
     color: #010606;
   }
 `
+export const SidebarLogout = styled.button`
+  border-radius: 50px;
+  background: #01bf71;
+  white-space: nowrap;
+  padding: 16px 64px;
+  color: #010606;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.2 ease-in-out;
+  text-decoration: none;
+
+  &:hover {
+    transition: 0.2 ease-in-out;
+    background: #fff;
+    color: #010606;
+  }
+`
 

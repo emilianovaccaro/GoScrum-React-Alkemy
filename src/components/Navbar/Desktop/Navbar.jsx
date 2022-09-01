@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { FaBars, FaChartLine, FaUsers } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom';
+import useLoggedIn from '../../../hooks/useLoggedIn';
 import {
   Nav,
   NavbarContainer,
@@ -10,10 +11,20 @@ import {
   NavItem,
   NavLink,
   NavBtn,
-  NavBtnLink 
+  NavBtnLink,
+  NavLogout
 } from './NavbarStyles';
 
 const Navbar = ({ toggle }) => {
+  const [isLoggedIn, setIsLoggedIn] = useLoggedIn();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/');
+  }
+
 
   return (
     <>
@@ -29,11 +40,25 @@ const Navbar = ({ toggle }) => {
             <NavItem>
               <NavLink to="/addTask"> Create Task </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink to="/tasks"> Tasks </NavLink>
+            </NavItem>
+
           </NavMenu>
 
           <NavBtn>
-            <NavLink to="/register"> Sign Up </NavLink>
-            <NavBtnLink to="/login">Sign In</NavBtnLink>
+            {
+              !isLoggedIn ? (
+                <>
+                  <NavLink to="/register"> Sign Up </NavLink>
+                  <NavBtnLink to="/login">Sign In</NavBtnLink>
+                </>
+              ) : (
+                <>
+                  <NavLogout to="/login" onClick={handleLogout}>Logout</NavLogout>
+                </>
+              )
+            }
           </NavBtn>
 
         </NavbarContainer>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import useLoggedIn from '../../../hooks/useLoggedIn';
 import { 
   SidebarContainer,
   Icon,
@@ -7,11 +9,22 @@ import {
   SideBtnWrap,
   SidebarLogin,
   SidebarLink,
-  SidebarMenu
+  SidebarMenu,
+  SidebarLogout
 } from './SidebarStyles';
 
 
 const Sidebar = ({ isOpen, toggle }) => {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useLoggedIn();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate('/');
+  }
+
+
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
@@ -21,11 +34,21 @@ const Sidebar = ({ isOpen, toggle }) => {
       <SidebarWrapper>
         <SidebarMenu>
           <SidebarLink to="/addTask">Create task</SidebarLink>
-          <SidebarLink to="/register">Sign Up</SidebarLink>
+          <SidebarLink to="/tasks">Tasks</SidebarLink>
+
         </SidebarMenu>
 
         <SideBtnWrap>
-          <SidebarLogin to="/login">Sign In</SidebarLogin>
+        {
+          !isLoggedIn ? (
+              <>
+                <SidebarLink to="/register">Sign Up</SidebarLink>
+                <SidebarLogin to="/login">Sign In</SidebarLogin>
+              </>
+            ) : (
+              <SidebarLogout onClick={handleLogout}>Logout</SidebarLogout>
+            )
+        }
         </SideBtnWrap>
       </SidebarWrapper>
 

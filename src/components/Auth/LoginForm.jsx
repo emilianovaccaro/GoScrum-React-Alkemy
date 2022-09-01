@@ -1,58 +1,21 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 import { Formik, Form } from 'formik';
 import { TextField } from '../InputFields/TextField';
+import { Btn } from '../InputFields/ButtonStyle';
 import * as Yup from 'yup';
+import useLoggedIn from '../../hooks/useLoggedIn';
 
 
 //Input validation
 const validate = Yup.object().shape({
   username: Yup.string()
-    .required("User is required")
-    .min(6, "username must contain at least 6 characters")
-    .test("isValid", "User can only contain letters", (value, context) => {
-      const hasNumber = /[0-9]/.test(value);
-      const hasSpecialChar = /["!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]/.test(value);
-
-      let invalidConditions = 0;
-      const actualConditions = [hasNumber, hasSpecialChar];
-
-      actualConditions.forEach(condition => (
-        condition ? invalidConditions++ : null
-      ))
-
-      if (invalidConditions === 0) {
-        return true;
-      }
-
-      return false;
-    }),
+    .required("User is required"),
   password: Yup.string()
-    .required("Password is required")
-    .min(8, 'Password must be at least 8 characters')
-    .test(
-      "valid password",
-      "Password must contain: number, uppercase letter, lowercase letter", 
-      (value, context) => {
-        const hasUpperCase = /[A-Z]/.test(value);
-        const hasLowerCase = /[a-z]/.test(value);
-        const hasNumber = /[0-9]/.test(value);
-
-        const totalConditions = 3;
-        let validConditions = 0;
-        const actualConditions = [hasUpperCase, hasLowerCase, hasNumber];
-
-        actualConditions.forEach(condition => (
-          condition ? validConditions++ : null
-        ))
-
-        if (validConditions === totalConditions) {
-          return true;
-        }
-
-        return false;
-    })
+    .required("Password is required"),
 });
 
 //initial values
@@ -65,9 +28,24 @@ const initialValues = {
 const LoginForm = () => {
   const navigate = useNavigate();
   
-  
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+    const user = {
+      userName: values.username, 
+      password: values.password,
+    }  
+
+    try{
+      const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}auth/login`, user);
+      if (res.status === 200) {
+        toast("Welcome " + res.data.result.user.userName);
+        localStorage.setItem("token", res.data.result.token);
+        localStorage.setItem("userName", res.data.result.user.userName);
+        return navigate('/');
+      }
+    } catch (error) {
+      console.log(error.response.data);
+      return toast.error("User not found / " + error.response.data.message)
+    }
   }
   
 
@@ -98,7 +76,9 @@ const LoginForm = () => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-block" type="submit">Login</button>
+                <Btn type="submit">
+                  <div>Sign In</div>
+                </Btn> 
               </div>
 
             </Form>

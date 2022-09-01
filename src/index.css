@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+.root {
+  width: 100vw;
+  height: 100vh;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   height: 100%;
@@ -37,7 +42,6 @@ h3 {
 
 .container {
   width: 100%;
-  max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
@@ -99,6 +103,7 @@ h3 {
   position: relative;
 }
 
+
 .todo .close {
   position: absolute;
   top: 10px;
@@ -111,6 +116,7 @@ h3 {
 .form,
 .content {
   width: 70%;
+  max-width: 960px;
   margin: 0 auto;
 }
 
@@ -134,41 +140,6 @@ h3 {
   display: block;
   margin: 0 0 5px 3px;
 }
-
-.btn {
-  padding: 10px 20px;
-  border: 1px solid #161d1c;
-  border-radius: 5px;
-  background: #161d1c;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  text-align: center;
-  -webkit-appearance: button;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn svg {
-  margin-right: 8px;
-}
-
-.btn-reverse {
-  background: #fff;
-  color: #000;
-}
-
-.btn-block {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.btn:hover {
-  transform: scale(0.98);
-}
-
 
 @keyframes spin {
   0% {

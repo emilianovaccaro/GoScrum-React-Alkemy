@@ -4,9 +4,8 @@ import Sidebar from './Mobile/Sidebar';
 
 const NavRender = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
-
+  
   return (
     <>
       <Navbar toggle={toggle} />
