@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { FaUserPlus } from 'react-icons/fa';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { FaUserPlus, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
+import { Btn } from '../InputFields/ButtonStyle';
 import { TextField } from '../InputFields/TextField';
 import { SelectorField } from '../InputFields/SelectorField';
-import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import useFetchData from '../../hooks/useFetchData';
 
 
 //Input validation
@@ -58,7 +63,11 @@ const validate = Yup.object().shape({
         return false;
     }),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    role: Yup.string()
+      .required(),
+    continent: Yup.string()
+      .required()
 });
 
 //initial values
@@ -67,22 +76,48 @@ const initialValues = {
   email: "",
   password: "",
   role: "",
+  teamID: "",
+  continent: "",
+  region: "",
   confirmPassword: "",
 };
 
-
 const RegisterForm = () => {
   const navigate = useNavigate();
-  
-  
-  const onSubmit = (values) => {
-    console.log(values);
+  const [ toggle, setToggle ] = useState(false);
+
+  const data = useFetchData(`${process.env.REACT_APP_API_ENDPOINT}auth/data`);
+
+  const onSubmit = async (values) => {
+    values.teamID = !values.teamID ? uuidv4() : values.teamID;
+    values.region = "Otro";
+
+    const user = {
+      userName: values.username,
+      password: values.password,
+      email: values.email,
+      teamID: values.teamID,
+      role: values.role,
+      continent: values.continent,
+      region: values.region,
+    }
+
+    try{
+      const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}auth/register`, {user});
+
+      if (res.status === 201) {
+        toast(res.statusText);
+        return navigate('/login');
+      }
+    } catch (error) {
+      console.log(error.response.data);
+      return toast.error(error.response.data.message)
+    }
   }
   
 
   return (
     <>
-
       <section className="heading">
         <h1>
           <FaUserPlus /> Sign Up
@@ -98,33 +133,88 @@ const RegisterForm = () => {
         {formik => (
           <div className="form">
             <Form>
+
               <div className="form-group">
                 <TextField placeholder="user" name="username" type="text" />
               </div>
-
               <div className="form-group">
                 <TextField placeholder="email" name="email" type="email" />
               </div>
+              <div className="form-group">
+                <TextField placeholder="password" name="password" type="password" />
+              </div>
+              <div className="form-group">
+                <TextField placeholder="confirm password" name="confirmPassword" type="password" />
+              </div>
+              
+              {
+                !toggle ? (
+                  <div className="form-group">
+                    <FaRegSquare 
+                      onClick={() => setToggle(!toggle)}
+                    />
+                    <p>If you have a team ID, please check the box above</p>
+                  </div>
+                ) : (
+                  <div className="form-group">
+                     <FaRegCheckSquare 
+                      onClick={() => setToggle(!toggle)}
+                    />
+                      <TextField 
+                        label="Please enter your Team ID"
+                        placeholder="Team ID"
+                        name="teamID"
+                        type="text"
+                      />
+                  </div>
+                )
+              }
 
               <div className="form-group">
                 <SelectorField placeholder="role" name="role">
                   <option value="">Select Role</option>
-                  <option value="member">Team Member</option>
-                  <option value="leader">Team Leader</option>
+                  {
+                    data?.result?.Rol?.map(option => (
+                      <option value={option} key={option}>{option}</option>
+                    ))
+                  }
+                </SelectorField>
+              </div>
+              
+              <div className="form-group">
+                <SelectorField placeholder="continent" name="continent">
+                  <option value="">Select Continent</option>
+                  {
+                    data?.result?.continente?.map(option => (
+                      <option value={option} key={option}>{option}</option>
+                    ))
+                  }
                 </SelectorField>
               </div>
 
               <div className="form-group">
-                <TextField placeholder="password" name="password" type="password" />
+                {
+                  formik.values.continent === "America" && (
+                    <>
+                      <SelectorField placeholder="region" name="region">
+                        <option value="">Select Region</option>
+                        {
+                          data?.result?.region?.map(option => (
+                            <option value={option} key={option}>{option}</option>
+                          ))
+                        }
+                      </SelectorField>
+                    </>
+                  ) 
+                }
               </div>
 
               <div className="form-group">
-                <TextField placeholder="confirm password" name="confirmPassword" type="password" />
+                <Btn type="submit">
+                  <div>Register</div>
+                </Btn> 
               </div>
 
-              <div className="form-group">
-                <button className="btn btn-block" type="submit">Login</button>
-              </div>
             </Form>
           </div>
         )}
