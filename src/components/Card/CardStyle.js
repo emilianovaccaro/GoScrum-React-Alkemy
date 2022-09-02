@@ -4,16 +4,12 @@ export const CardContainer = styled.div`
   position: relative;
   margin: 5px auto;
   padding: 10px 0 10px;
-  width: 100%;
+  width: 95%;
   border-radius: 7px;
 
   background: ${(props) => `linear-gradient(
     45deg, ${props.mainColor}, ${props.secondColor}
   )`};
-
-  @media screen and (min-width: 768px) {
-    width: 90%;
-  }
 `
 
 export const CardHeader = styled.div`

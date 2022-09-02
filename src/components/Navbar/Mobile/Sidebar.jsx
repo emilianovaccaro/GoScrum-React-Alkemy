@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLoggedIn from '../../../hooks/useLoggedIn';
 import { 
   SidebarContainer,
   Icon,
@@ -11,16 +10,16 @@ import {
   SidebarLink,
   SidebarMenu,
   SidebarLogout
-} from './SidebarStyles';
+} from '../Mobile/SidebarStyles';
 
 
 const Sidebar = ({ isOpen, toggle }) => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useLoggedIn();
+  const username = localStorage.getItem('userName');
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setIsLoggedIn(false);
+    localStorage.removeItem("userName");
     navigate('/');
   }
 
@@ -35,18 +34,24 @@ const Sidebar = ({ isOpen, toggle }) => {
         <SidebarMenu>
           <SidebarLink to="/addTask">Create task</SidebarLink>
           <SidebarLink to="/tasks">Tasks</SidebarLink>
-
         </SidebarMenu>
 
         <SideBtnWrap>
         {
-          !isLoggedIn ? (
+          !username ? (
               <>
-                <SidebarLink to="/register">Sign Up</SidebarLink>
-                <SidebarLogin to="/login">Sign In</SidebarLogin>
+                <div style={{display: "flex", flexDirection:"column", marginTop: "-50px"}}>
+                  <SidebarLink to="/register" style={{marginBottom:"10px"}}>Sign Up</SidebarLink>
+                  <SidebarLogin to="/login">Sign In</SidebarLogin>
+                </div>
               </>
             ) : (
-              <SidebarLogout onClick={handleLogout}>Logout</SidebarLogout>
+              <>
+                <div style={{display: "flex", flexDirection:"column", marginTop: "-50px"}}>
+                  <div style={{marginBottom:"10px", textAlign:"center"}}>{username}</div>
+                  <SidebarLogout onClick={handleLogout}>Logout</SidebarLogout>
+                </div>
+              </>
             )
         }
         </SideBtnWrap>

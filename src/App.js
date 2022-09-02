@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import TaskForm from './components/TaskForm/TaskForm';
-import TaskList from './components/Task/TaskList';
+import TaskList from './components/TaskList/TaskList';
 import ProtectRoute from './helpers/ProtectRoute';
 
 const Error404 = lazy(() => import("./pages/Error404"));

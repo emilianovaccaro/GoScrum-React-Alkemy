@@ -2,10 +2,11 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaTasks } from 'react-icons/fa';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { Btn } from '../InputFields/ButtonStyle';
-import { TextField } from '../InputFields/TextField';
 import * as Yup from 'yup';
+import { TextField } from '../InputFields/TextField';
+import { TextAreaField } from '../InputFields/TextAreaField';
 import { SelectorField } from '../InputFields/SelectorField';
 import { toast } from 'react-toastify';
 
@@ -85,7 +86,7 @@ const TaskForm = () => {
               </div>
 
               <div className="form-group">
-                <TextField placeholder="description" name="description" type="text" />
+                  <TextAreaField placeholder="description" name="description" type="textarea"/> 
               </div>
 
               <div className="form-group">
