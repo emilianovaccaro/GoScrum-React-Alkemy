@@ -108,10 +108,16 @@ const RegisterForm = () => {
       if (res.status === 201) {
         toast(res.statusText);
         return navigate('/login');
-      }
+      } 
     } catch (error) {
-      console.log(error.response.data);
-      return toast.error(error.response.data.message)
+      console.log(error.response);
+      if (error.response.status === 409) {
+        return toast.error("Email is already in use / " + error.response.data.message);
+      } else if (error.response.status === 401) {
+        return toast.error("Password is incorrect / " + error.response.data.message);
+      }
+
+      return toast.error(error.response.data.message);
     }
   }
   

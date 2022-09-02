@@ -7,7 +7,6 @@ import { Formik, Form } from 'formik';
 import { TextField } from '../InputFields/TextField';
 import { Btn } from '../InputFields/ButtonStyle';
 import * as Yup from 'yup';
-import useLoggedIn from '../../hooks/useLoggedIn';
 
 
 //Input validation
@@ -40,11 +39,16 @@ const LoginForm = () => {
         toast("Welcome " + res.data.result.user.userName);
         localStorage.setItem("token", res.data.result.token);
         localStorage.setItem("userName", res.data.result.user.userName);
-        return navigate('/');
+        return navigate('/tasks');
       }
     } catch (error) {
-      console.log(error.response.data);
-      return toast.error("User not found / " + error.response.data.message)
+      if (error.response.status === 404) {
+        return toast.error("User does not exist / " + error.response.data.message);
+      } else if (error.response.status === 401) {
+        return toast.error("Password is incorrect / " + error.response.data.message);
+      }
+
+      return toast.error(error.response.data.message);
     }
   }
   

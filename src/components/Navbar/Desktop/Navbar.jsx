@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaBars, FaChartLine, FaUsers } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom';
-import useLoggedIn from '../../../hooks/useLoggedIn';
 import {
   Nav,
   NavbarContainer,
@@ -15,13 +14,14 @@ import {
   NavLogout
 } from './NavbarStyles';
 
+
 const Navbar = ({ toggle }) => {
-  const [isLoggedIn, setIsLoggedIn] = useLoggedIn();
   const navigate = useNavigate();
+  const username = localStorage.getItem("userName");
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setIsLoggedIn(false);
+    localStorage.removeItem('userName');
     navigate('/');
   }
 
@@ -48,14 +48,15 @@ const Navbar = ({ toggle }) => {
 
           <NavBtn>
             {
-              !isLoggedIn ? (
+              !username ? (
                 <>
                   <NavLink to="/register"> Sign Up </NavLink>
                   <NavBtnLink to="/login">Sign In</NavBtnLink>
                 </>
               ) : (
                 <>
-                  <NavLogout to="/login" onClick={handleLogout}>Logout</NavLogout>
+                  <div style={{color: "white", marginRight: '50px'}}>{username}</div>
+                    <NavLogout to="/login" onClick={handleLogout}>Logout</NavLogout>
                 </>
               )
             }

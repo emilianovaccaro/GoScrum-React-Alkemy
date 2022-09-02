@@ -3,11 +3,11 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 // GET METHOD
-const useFetchData = (url) => {
+const useFetchData = (url, headers = undefined) => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    axios.get(url)
+    axios.get(url, {headers})
       .then((res) => {
         setData(res.data);
       })

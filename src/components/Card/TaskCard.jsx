@@ -4,14 +4,32 @@ import { CardButtons, CardContainer, CardDescription, CardHeader, CardHeaderStat
 
 
 const TaskCard = ({ task }) => {
-  const { title, description, status, importance } = task;
+  const { title, description, status, importance, createdAt } = task;
+  const { userName } = task.user;
+  const user = localStorage.getItem('userName');
   let mainColor = 'blue';
 
+  const displayButtons = () => {
 
-  if (importance === 'high') {
+    if ( userName === user /* || role === "Team Leader"  */) {
+      return <>
+          <CardButtons onClick={() => console.log("clicked task", title)} >
+            Edit <FaEdit />
+          </CardButtons>
+          <CardButtons onClick={() => console.log("clicked task")} >
+            Delete <FaTrashAlt />
+          </CardButtons>
+        </>
+    } 
+
+    return <></>
+  }
+  
+
+  if (importance === 'HIGH') {
+    mainColor = 'yellow';
+  } else if (importance === 'MEDIUM') {
     mainColor = 'lightgreen';
-  } else if (importance === 'mid') {
-    mainColor = 'pink';
   } else {
     mainColor = 'lightblue';
   }
@@ -33,14 +51,15 @@ const TaskCard = ({ task }) => {
         <CardDescription>
           {description}
         </CardDescription>
+        <CardDescription>
+          {createdAt}  
+        </CardDescription>
+        <CardDescription>
+          {userName}   
+        </CardDescription>
 
         <DivCardButtons>
-          <CardButtons onClick={() => console.log("clicked task", title)} >
-              Edit <FaEdit />
-          </CardButtons>
-          <CardButtons onClick={() => console.log("clicked task")} >
-              Delete <FaTrashAlt />
-          </CardButtons>
+          {displayButtons()}
         </DivCardButtons>
 
       </CardContainer>
